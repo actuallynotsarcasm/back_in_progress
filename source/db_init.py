@@ -6,8 +6,8 @@ from schemas import Base, engine
 
 try:
     connection = psycopg2.connect(user="postgres",
-                                  password="Postgres_8614",
-                                  host="127.0.0.1",
+                                  password="admin",
+                                  host="database",
                                   port="5432")
     connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     cursor = connection.cursor()

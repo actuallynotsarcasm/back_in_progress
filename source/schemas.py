@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, String, Integer, Column, Float
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine("postgresql+psycopg2://postgres:Postgres_8614@localhost/vtb_autocredit")
+engine = create_engine("postgresql+psycopg2://postgres:admin@database/vtb_autocredit")
 Base = declarative_base()
 
 
