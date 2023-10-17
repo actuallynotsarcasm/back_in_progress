@@ -1,10 +1,61 @@
 from fastapi import APIRouter, Response, status
+from fastapi.responses import RedirectResponse
+from fastapi.security import OAuth2AuthorizationCodeBearer
+from fastapi_login import LoginManager
+from fastapi_login.exceptions import InvalidCredentialsException
+import aiohttp
 
 import service
 from models import CarModel, DealerModel, ModeratorModel
 
 router = APIRouter()
 
+'''
+SECRET = "my_secret_key"
+OIDC_URL = "https://my-oidc-provider.com"
+OIDC_CLIENT_ID = "my_client_id"
+OIDC_CLIENT_SECRET = "my_client_secret"
+OIDC_REDIRECT_URI = "http://localhost:8000/auth/callback"
+
+login_manager = LoginManager(SECRET, "/auth/token")
+oauth2_scheme = OAuth2AuthorizationCodeBearer(
+    authorizationUrl=f"{OIDC_URL}/authorize",
+    tokenUrl=f"{OIDC_URL}/token",
+    clientId=OIDC_CLIENT_ID,
+    clientSecret=OIDC_CLIENT_SECRET,
+    redirectUri=OIDC_REDIRECT_URI
+)
+
+@router.get("/auth/login")
+async def login():
+    authorization_url = oauth2_scheme.authorizationUrl
+    return RedirectResponse(authorization_url)
+
+@router.get("/auth/callback")
+async def callback(code: str):
+    access_token = await oauth2_scheme.get_access_token(code)
+    # реализация получения информации о пользователе
+    pass
+
+async def get_user_info(access_token: str):
+    headers = {"Authorization": f"Bearer {access_token}"}
+    async with aiohttp.ClientSession() as session:
+        async with session.get(f"{OIDC_URL}/userinfo", headers=headers) as resp:
+            data = await resp.json()
+    return data
+
+
+@login_manager.user_loader
+async def load_user(user_id: str):
+    user_info = await get_user_info(user_id)
+    # реализация получения пользователя из базы данных или создание нового пользователя
+    pass
+
+@router.get("/protected")
+async def protected_route(current_user: User = Depends(login_manager)):
+    # реализация защищенного ресурса
+    pass
+'''
 
 @router.get('/')
 async def root():
